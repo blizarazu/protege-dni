@@ -4,6 +4,7 @@ import { avisosDe, paginaActual, textoMarca, type Accion, type Estado } from '..
 import { EditorRecuadros } from './EditorRecuadros'
 import { Paso } from './Paso'
 import { PasoDocumento } from './PasoDocumento'
+import { PasoExportar } from './PasoExportar'
 import { PasoOcultar } from './PasoOcultar'
 import { PasoOpciones } from './PasoOpciones'
 import { PasoTexto } from './PasoTexto'
@@ -49,7 +50,9 @@ export function Editor({ estado, despachar }: Props) {
         <Paso numero={4} titulo="Opciones de seguridad">
           <PasoOpciones opciones={estado.opciones} despachar={despachar} avisos={delPaso(4)} />
         </Paso>
-        <Paso numero={5} titulo="Exportar" />
+        <Paso numero={5} titulo="Exportar">
+          <PasoExportar estado={estado} despachar={despachar} texto={texto} avisos={avisos} />
+        </Paso>
       </div>
     </main>
   )
