@@ -34,6 +34,7 @@ Los DNI de prueba de `tests/fixtures/` son **ficticios** y se regeneran con `nod
 ## Limitaciones conocidas
 
 - Dibujar recuadros de ocultación requiere ratón o pantalla táctil (no hay alternativa con teclado en la v1).
+- En JPG se genera un fichero por página. Al descargar varios a la vez, el navegador puede pedir permiso para «descargar varios archivos» (Chrome lo hace con su configuración por defecto); si se rechaza, solo se descarga la primera página. Acepta el permiso o elige PDF, que reúne todas las páginas en un solo fichero.
 - La marca de agua disuade, pero no es infalible.
 
 ## Comprobación manual antes de publicar
@@ -41,7 +42,9 @@ Los DNI de prueba de `tests/fixtures/` son **ficticios** y se regeneran con `nod
 En un Android con Chrome y en un iPhone con Safari:
 
 - [ ] «Hacer foto» abre la cámara y la foto aparece en la vista previa.
+- [ ] Con el paso 2 abierto, arrastrar el dedo sobre la vista previa dibuja un recuadro (la página no se desplaza mientras dibujas) y tapa el dato.
 - [ ] «Compartir» abre la hoja de compartir del sistema con el fichero.
+- [ ] Con dos páginas en JPG, «Descargar» guarda los dos ficheros (si el navegador pide permiso para descargar varios archivos, al aceptarlo llegan los dos).
 - [ ] La app se puede instalar en la pantalla de inicio.
 - [ ] Con el modo avión activado, la app instalada carga, procesa y exporta.
 
