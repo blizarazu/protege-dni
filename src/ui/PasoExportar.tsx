@@ -20,7 +20,8 @@ export function PasoExportar({ estado, despachar, texto, avisos }: Props) {
   const [preparado, setPreparado] = useState<Preparado | null>(null)
   const [ocupado, setOcupado] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [hecho, setHecho] = useState(false)
+  const [compartido, setCompartido] = useState(false)
+  const [descargadas, setDescargadas] = useState<ReadonlySet<number>>(new Set())
 
   const vigente =
     preparado &&
@@ -29,6 +30,8 @@ export function PasoExportar({ estado, despachar, texto, avisos }: Props) {
     preparado.opciones === estado.opciones
       ? preparado
       : null
+  const porPagina = vigente !== null && vigente.ficheros.length > 1
+  const hecho = vigente !== null && (compartido || descargadas.size >= vigente.ficheros.length)
   const bloqueo =
     estado.paginas.length === 0
       ? 'Carga un documento para poder exportarlo.'
@@ -38,7 +41,8 @@ export function PasoExportar({ estado, despachar, texto, avisos }: Props) {
 
   async function generar() {
     setError(null)
-    setHecho(false)
+    setCompartido(false)
+    setDescargadas(new Set())
     setOcupado(true)
     try {
       const ficheros = await generarFicheros(estado.paginas, texto, estado.opciones, new Date())
@@ -54,15 +58,15 @@ export function PasoExportar({ estado, despachar, texto, avisos }: Props) {
   async function alCompartir(ficheros: File[]) {
     setError(null)
     try {
-      if ((await compartir(ficheros)) === 'compartido') setHecho(true)
+      if ((await compartir(ficheros)) === 'compartido') setCompartido(true)
     } catch {
       setError(MENSAJES_ERROR.compartir)
     }
   }
 
-  function alDescargar(ficheros: File[]) {
+  function alDescargar(ficheros: File[], indices: number[]) {
     descargar(ficheros)
-    setHecho(true)
+    setDescargadas((previas) => new Set([...previas, ...indices]))
   }
 
   return (
@@ -96,20 +100,48 @@ export function PasoExportar({ estado, despachar, texto, avisos }: Props) {
           {ocupado ? 'Generando…' : 'Generar copia protegida'}
         </button>
       </div>
+      {ocupado && (
+        <p className="nota" role="status">
+          Generando…
+        </p>
+      )}
 
+      <div aria-live="polite">
+        {vigente && (
+          <div className="preparado">
+            <p>Copia lista: {vigente.ficheros.map((f) => f.name).join(', ')}</p>
+            {porPagina && <p className="nota">Descarga cada página por separado.</p>}
+          </div>
+        )}
+      </div>
       {vigente && (
-        <div className="preparado">
-          <p>Copia lista: {vigente.ficheros.map((f) => f.name).join(', ')}</p>
-          <div className="acciones">
-            {puedeCompartir(vigente.ficheros) && (
-              <button type="button" className="boton" onClick={() => void alCompartir(vigente.ficheros)}>
-                Compartir
+        <div className="acciones">
+          {puedeCompartir(vigente.ficheros) && (
+            <button type="button" className="boton" onClick={() => void alCompartir(vigente.ficheros)}>
+              Compartir
+            </button>
+          )}
+          {porPagina ? (
+            vigente.ficheros.map((fichero, i) => (
+              <button
+                key={fichero.name}
+                type="button"
+                className="boton boton--secundario"
+                disabled={descargadas.has(i)}
+                onClick={() => alDescargar([fichero], [i])}
+              >
+                {descargadas.has(i) ? `Página ${i + 1} descargada ✓` : `Descargar página ${i + 1}`}
               </button>
-            )}
-            <button type="button" className="boton boton--secundario" onClick={() => alDescargar(vigente.ficheros)}>
+            ))
+          ) : (
+            <button
+              type="button"
+              className="boton boton--secundario"
+              onClick={() => alDescargar(vigente.ficheros, [0])}
+            >
               Descargar
             </button>
-          </div>
+          )}
         </div>
       )}
       {error && (
@@ -117,7 +149,7 @@ export function PasoExportar({ estado, despachar, texto, avisos }: Props) {
           {error}
         </p>
       )}
-      {hecho && vigente && (
+      {hecho && (
         <p className="exito" role="status">
           {MENSAJE_TRAS_EXPORTAR}
         </p>

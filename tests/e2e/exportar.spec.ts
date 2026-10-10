@@ -45,7 +45,9 @@ test.describe('Paso 5 · Exportar', () => {
     for (const campo of ['Title', 'Author', 'Subject', 'Keywords']) expect(analisis.info[campo]).toBeUndefined()
     expect(analisis.xmp).toBeNull()
     const [jpeg] = await jpegsDelPdf(bytes)
-    expect((await estadisticasJpeg(page, jpeg, ROJO_INTERIOR)).maximo).toBeLessThanOrEqual(60)
+    const tapada = await estadisticasJpeg(page, jpeg, ROJO_INTERIOR)
+    expect(tapada.maximo).toBeLessThanOrEqual(60)
+    expect((tapada.mediaR + tapada.mediaG + tapada.mediaB) / 3).toBeLessThanOrEqual(12)
     expect((await estadisticasJpeg(page, jpeg)).maxDiferenciaCanales).toBeLessThanOrEqual(3)
     await expect(page.getByText('Listo. Cuando ya no la necesites')).toBeVisible()
     expect(errores).toEqual([])
@@ -74,6 +76,27 @@ test.describe('Paso 5 · Exportar', () => {
     expect(nombre).toMatch(/^copia-protegida-\d{4}-\d{2}-\d{2}-p1\.jpg$/)
     expect([bytes[0], bytes[1]]).toEqual([0xff, 0xd8])
     expect(contieneExif(bytes)).toBe(false)
+  })
+
+  test('un JPG de varias páginas se descarga con un botón por página', async ({ page }) => {
+    await page.goto('/')
+    await cargar(page, 'dni-ficticio-2-paginas.pdf')
+    await esperarVistaPrevia(page)
+    await abrirPaso(page, 'Exportar')
+    const bloque = paso(page, 'Exportar')
+    await bloque.getByLabel('JPG').check()
+    await bloque.getByRole('button', { name: 'Generar copia protegida' }).click()
+    await expect(bloque.getByText('Descarga cada página por separado.')).toBeVisible()
+    await expect(bloque.getByRole('button', { name: 'Descargar', exact: true })).toHaveCount(0)
+    const listo = page.getByText('Listo. Cuando ya no la necesites')
+    for (const n of [1, 2]) {
+      const descarga = page.waitForEvent('download')
+      await bloque.getByRole('button', { name: `Descargar página ${n}` }).click()
+      expect((await descarga).suggestedFilename()).toMatch(new RegExp(`^copia-protegida-\\d{4}-\\d{2}-\\d{2}-p${n}\\.jpg$`))
+      await expect(bloque.getByText(`Página ${n} descargada ✓`)).toBeVisible()
+      if (n === 1) await expect(listo).toHaveCount(0)
+    }
+    await expect(listo).toBeVisible()
   })
 
   test('un texto libre vacío o solo con espacios bloquea la exportación', async ({ page }) => {
