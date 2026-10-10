@@ -1,6 +1,6 @@
 # Plan: Protege DNI v1
 
-> **Estado:** no empezado
+> **Estado:** completado
 > **Para trabajadores agénticos:** SUB-SKILL OBLIGATORIA: ejecutar con `superpowers:subagent-driven-development` (recomendado) o `superpowers:executing-plans`, tarea a tarea. Ritmo TDD (`→ FAIL` antes de `→ PASS`). Los pasos usan casillas `- [ ]` para el seguimiento.
 
 **Objetivo:** construir Protege DNI v1, una PWA estática en React que añade una marca de agua a la copia de un DNI, permite ocultar datos y la exporta aplanada (PDF o JPG), con todo el procesamiento en el navegador.
@@ -5652,22 +5652,22 @@ Marca cada tarea al terminarla, con el hash del commit, para que otra sesión pu
 
 | # | Tarea | Modelo | Estado | Commit |
 |---|---|---|---|---|
-| — | Worktree creado (`feat/protege-dni-v1`) | — | [ ] | |
-| 1 | Andamiaje | Haiku 5.5 | [ ] | |
-| 2 | Texto de la marca y plantillas | Haiku 5.5 | [ ] | |
-| 3 | Reglas de avisos | Haiku 5.5 | [ ] | |
-| 4 | Geometría y nombres | Haiku 5.5 | [ ] | |
-| 5 | Marca y procesado | Sonnet 5.5 | [ ] | |
-| 6 | Carga de PDF e imágenes | Sonnet 5.5 | [ ] | |
-| 7 | Exportación | Sonnet 5.5 | [ ] | |
-| 8 | Estado | Sonnet 5.5 | [ ] | |
-| 9 | Esqueleto de la interfaz | Sonnet 5.5 | [ ] | |
-| 10 | Paso 1 y vista previa | Sonnet 5.5 | [ ] | |
-| 11 | Paso 2 · ocultar datos | Sonnet 5.5 | [ ] | |
-| 12 | Paso 3 · texto | Sonnet 5.5 | [ ] | |
-| 13 | Paso 4 · opciones | Sonnet 5.5 | [ ] | |
-| 14 | Paso 5 · exportar | Sonnet 5.5 | [ ] | |
-| 15 | Privacidad y PWA | Sonnet 5.5 | [ ] | |
-| 16 | CI, README y licencia | Haiku 5.5 | [ ] | |
-| 17 | Verificación de contenidos | Sonnet 5.5 | [ ] | |
-| 18 | Integración y verificación final | Opus 5.5 | [ ] | |
+| — | Worktree creado (`feat/protege-dni-v1`) | — | [x] | rama desde `8a0fd73` |
+| 1 | Andamiaje | Haiku 5.5 | [x] | `8a0fd73..86cce1c` |
+| 2 | Texto de la marca y plantillas | Haiku 5.5 | [x] | `86cce1c..ff7c619` |
+| 3 | Reglas de avisos | Haiku 5.5 | [x] | `ff7c619..ec8b01a` |
+| 4 | Geometría y nombres | Haiku 5.5 | [x] | `ec8b01a..cef1a74` |
+| 5 | Marca y procesado | Sonnet 5.5 | [x] | `cef1a74..7c8ba24` |
+| 6 | Carga de PDF e imágenes | Sonnet 5.5 | [x] | `7c8ba24..c3373b2` |
+| 7 | Exportación | Sonnet 5.5 | [x] | `c3373b2..534210b` |
+| 8 | Estado | Sonnet 5.5 | [x] | `534210b..4776983` |
+| 9 | Esqueleto de la interfaz | Sonnet 5.5 | [x] | `4776983..746435a` |
+| 10 | Paso 1 y vista previa | Sonnet 5.5 | [x] | `746435a..7590cb3` |
+| 11 | Paso 2 · ocultar datos | Sonnet 5.5 | [x] | `7590cb3..d664db4` |
+| 12 | Paso 3 · texto | Sonnet 5.5 | [x] | `d664db4..c46e8a5` |
+| 13 | Paso 4 · opciones | Sonnet 5.5 | [x] | `c46e8a5..2523bc1` |
+| 14 | Paso 5 · exportar | Sonnet 5.5 | [x] | `2523bc1..2ae811f` |
+| 15 | Privacidad y PWA | Sonnet 5.5 | [x] | `2ae811f..a919e97` |
+| 16 | CI, README y licencia | Haiku 5.5 | [x] | `a919e97..fdee999` |
+| 17 | Verificación de contenidos | Sonnet 5.5 | [x] | `fdee999..a847460` |
+| 18 | Integración y verificación final | Opus 5.5 | [x] | `a847460..eb2412d` + `docs:` del ledger |
