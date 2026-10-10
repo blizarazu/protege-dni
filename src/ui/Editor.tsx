@@ -5,6 +5,7 @@ import { EditorRecuadros } from './EditorRecuadros'
 import { Paso } from './Paso'
 import { PasoDocumento } from './PasoDocumento'
 import { PasoOcultar } from './PasoOcultar'
+import { PasoTexto } from './PasoTexto'
 import { useLiberarImagenes } from './useLiberarImagenes'
 import { VistaPrevia } from './VistaPrevia'
 
@@ -41,7 +42,9 @@ export function Editor({ estado, despachar }: Props) {
         <Paso numero={2} titulo="Ocultar datos (opcional)" onToggle={setOcultarActivo}>
           <PasoOcultar estado={estado} despachar={despachar} avisos={delPaso(2)} />
         </Paso>
-        <Paso numero={3} titulo="Texto de la marca" />
+        <Paso numero={3} titulo="Texto de la marca">
+          <PasoTexto estado={estado} despachar={despachar} avisos={delPaso(3)} />
+        </Paso>
         <Paso numero={4} titulo="Opciones de seguridad" />
         <Paso numero={5} titulo="Exportar" />
       </div>
