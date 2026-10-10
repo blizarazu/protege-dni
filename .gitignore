@@ -1,1 +1,25 @@
+# Dependencias y builds
+node_modules
+dist
+dist-ssr
+*.local
+*.log
+
+# Recursos de pdf.js copiados en cada build (scripts/copiar-pdfjs.mjs)
+public/pdfjs
+
+# Resultados de pruebas
+test-results
+playwright-report
+blob-report
+**/__screenshots__
+.vitest/
+
+# Worktrees de trabajo
 .claude/worktrees/
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store

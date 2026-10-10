@@ -1,0 +1,56 @@
+import type { IdFuente } from './fuentes'
+
+export type BuenaPractica = { titulo: string; detalle: string; fuentes: IdFuente[] }
+
+export const BUENAS_PRACTICAS: readonly BuenaPractica[] = [
+  {
+    titulo: 'Pregunta antes si de verdad necesitan una copia.',
+    detalle: 'La AEPD considera que pedir una copia del DNI es, en principio, un tratamiento excesivo: no puede exigirse por sistema y hay que valorar cada caso.',
+    fuentes: ['aepd-informe'],
+  },
+  {
+    titulo: 'Envía solo la cara que te pidan.',
+    detalle: 'Cuantos menos datos circulen, menos se puede hacer con la copia si se filtra.',
+    fuentes: ['ocu'],
+  },
+  {
+    titulo: 'Pon una marca de agua.',
+    detalle: 'Indica el destinatario, la finalidad y la fecha, y haz que cubra todo el documento.',
+    fuentes: ['ocu', 'maldita'],
+  },
+  {
+    titulo: 'Envíala en blanco y negro.',
+    detalle: 'Con menos detalle es más difícil manipularla o hacerla pasar por un original.',
+    fuentes: ['policia-genbeta', 'ocu'],
+  },
+  {
+    titulo: 'Oculta los datos que el trámite no necesite.',
+    detalle: 'Por ejemplo, la firma o el número de soporte, salvo que te los pidan.',
+    fuentes: ['ocu', 'maldita'],
+  },
+  {
+    titulo: 'Usa formatos aplanados.',
+    detalle: 'En una imagen o en un PDF de imagen, lo que tapas no se puede recuperar quitando capas.',
+    fuentes: ['ocu'],
+  },
+  {
+    titulo: 'Envíala solo a quien la pidió y bórrala cuando ya no la necesites.',
+    detalle: 'Mándala únicamente a quien te la pidió, por el canal que esa entidad indique, y no la dejes guardada en la nube ni en los chats cuando ya no la necesites.',
+    fuentes: [],
+  },
+  {
+    titulo: 'Desconfía de quien te pida datos haciéndose pasar por tu banco.',
+    detalle: 'Un banco nunca pide datos personales por SMS, correo, enlaces ni llamadas, sino a través de su web o su app.',
+    fuentes: ['maldita'],
+  },
+  {
+    titulo: 'Si sospechas un uso fraudulento, actúa.',
+    detalle: 'Contacta con la entidad, denúncialo y llama al 017, la línea de ayuda en ciberseguridad de INCIBE.',
+    fuentes: ['ocu', 'incibe-017', 'incibe-caso'],
+  },
+  {
+    titulo: 'La marca de agua disuade, pero no es infalible.',
+    detalle: 'Reduce el riesgo; no lo elimina.',
+    fuentes: [],
+  },
+]

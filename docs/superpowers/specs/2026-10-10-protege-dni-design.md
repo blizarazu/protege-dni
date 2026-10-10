@@ -75,7 +75,7 @@ Una sola pantalla de edición, válida para escritorio y móvil, más dos págin
 - Sobre la vista previa de la página seleccionada, el usuario dibuja recuadros arrastrando con el dedo o el ratón (Pointer Events).
 - Un recuadro se selecciona tocándolo y se elimina con un botón «Eliminar recuadro». Botón «Quitar todos» para la página actual.
 - Los recuadros se pintan en negro opaco (`#000`) y quedan integrados en la imagen exportada.
-- Encima de los controles se muestra la **guía de ocultación** (texto exacto en el apéndice A.3).
+- Debajo de los controles se muestra la **guía de ocultación** (texto exacto en el apéndice A.3), y la instrucción del paso remite a ella (ajustado durante la implementación: la guía mide unos 1300 px en móvil y, encima, alejaría los botones de la vista previa).
 
 ### 3.4 Paso 3 · Texto de la marca
 
@@ -127,7 +127,7 @@ Cada opción tiene su desplegable «ⓘ ¿Por qué importa?» (textos en el apé
 - Botón principal:
   - Si `navigator.canShare({ files })` es cierto: «Compartir» (Web Share API) y, al lado, un enlace secundario «Descargar».
   - Si no: «Descargar».
-- PDF: un solo fichero con todas las páginas. JPG: un fichero por página.
+- PDF: un solo fichero con todas las páginas. JPG: un fichero por página; con más de una página, en lugar de un único «Descargar» hay un botón por página («Descargar página 1», …) y la nota «Descarga cada página por separado.» (ajustado durante la implementación: Chrome bloquea las descargas sucesivas lanzadas por un solo clic). El mensaje final aparece cuando se han descargado todas.
 - Nombre de los ficheros: `copia-protegida-AAAA-MM-DD.pdf` / `copia-protegida-AAAA-MM-DD-p{n}.jpg`. **No se reutiliza el nombre del fichero original**, que a menudo contiene el nombre de la persona.
 - Junto al botón, resumen de los avisos activos (solo informativo, no bloquea).
 - Tras exportar: «Listo. Cuando ya no la necesites, borra la copia de tus descargas y de los chats donde la hayas enviado.»
@@ -143,9 +143,9 @@ Explica, en lenguaje llano:
 
 - **No hay servidor que reciba nada:** la web es un conjunto de ficheros estáticos; no existe ningún sitio al que se suba el documento.
 - **Pruébalo en modo avión:** tras la primera visita, la app funciona sin conexión.
-- **El navegador lo impide:** la página declara una política de seguridad (CSP) que bloquea las conexiones a otros dominios.
+- **El navegador lo impide:** la página declara una política de seguridad (CSP) que impide que cargue o envíe nada a otros dominios (ajustado durante la implementación: la CSP en `<meta>` no cubre el worker de pdf.js ni el service worker, así que no se afirma que el navegador bloquee todas las conexiones).
 - **Puedes revisarlo:** el código es público en GitHub (enlace al repositorio). Para usuarios avanzados: en las herramientas de desarrollo, pestaña Red, se ve que al procesar el documento no se hace ninguna petición.
-- **Nada se guarda:** ni cookies, ni analíticas, ni almacenamiento. Al cerrar la pestaña, todo desaparece.
+- **Nada del documento se guarda:** sin cookies ni analíticas, y el documento, el texto y las opciones solo están en la memoria de la pestaña; al cerrarla, todo desaparece. El navegador solo guarda los ficheros de la propia app para que funcione sin conexión (ajustado durante la implementación).
 
 ## 4. Avisos de seguridad
 
