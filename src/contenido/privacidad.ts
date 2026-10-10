@@ -23,7 +23,8 @@ export const PUNTOS_COMPROBACION: readonly { titulo: string; texto: string }[] =
     texto: 'El código es público. Si sabes usar las herramientas de desarrollo del navegador, abre la pestaña Red: al procesar el documento no se hace ninguna petición a otros sitios.',
   },
   {
-    titulo: 'Nada se guarda',
-    texto: 'Sin cookies, sin analíticas y sin almacenamiento. Al cerrar la pestaña, todo desaparece.',
+    titulo: 'Nada de tu documento se guarda',
+    texto:
+      'Sin cookies y sin analíticas. Tu documento, el texto de la marca y tus opciones solo están en la memoria de esta pestaña: al cerrarla, todo desaparece. El navegador solo guarda los ficheros de la propia app, para que funcione sin conexión.',
   },
 ]

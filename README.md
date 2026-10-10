@@ -9,8 +9,8 @@ Añade una marca de agua a la copia de tu DNI, oculta los datos que el trámite 
 - La web es un conjunto de ficheros estáticos; no existe ningún sitio al que se suba el documento.
 - Tras la primera visita funciona en modo avión (PWA).
 - La página declara una política de seguridad (CSP) que bloquea las conexiones a otros dominios.
-- Sin cookies, analíticas ni almacenamiento: al cerrar la pestaña, todo desaparece.
-- Las pruebas automáticas (`tests/e2e/privacidad.spec.ts`) comprueban que ninguna petición sale del propio origen.
+- Sin cookies ni analíticas, y nada de tu documento se guarda: al cerrar la pestaña, todo desaparece. El navegador solo guarda los ficheros de la propia app (en la caché del service worker), para que funcione sin conexión.
+- Las pruebas automáticas (`tests/e2e/privacidad.spec.ts`) comprueban que ninguna petición sale del propio origen y que la caché solo contiene ficheros de la app.
 
 ## Desarrollo
 

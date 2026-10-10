@@ -37,4 +37,7 @@ test('explica cómo comprobar que el documento no sale del dispositivo', async (
   await page.getByRole('link', { name: '¿Cómo puedo comprobarlo?' }).click()
   await expect(page.getByRole('heading', { level: 1 })).toContainText('¿Cómo puedo comprobar')
   await expect(page.getByRole('heading', { level: 2, name: 'Pruébalo en modo avión' })).toBeVisible()
+  // La PWA guarda sus propios ficheros para funcionar sin conexión: la promesa es sobre el documento.
+  await expect(page.getByRole('heading', { level: 2, name: 'Nada de tu documento se guarda' })).toBeVisible()
+  await expect(page.getByText('El navegador solo guarda los ficheros de la propia app')).toBeVisible()
 })

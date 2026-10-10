@@ -1,3 +1,5 @@
+import { readdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { expect, test, type BrowserContext, type Page } from "@playwright/test";
 import {
   abrirPaso,
@@ -9,6 +11,9 @@ import {
   generarYDescargar,
   vigilarConsola,
 } from "./utilidades.ts";
+
+/** Build que sirve `vite preview` en las pruebas (lo genera el webServer de Playwright). */
+const DIRECTORIO_DIST = fileURLToPath(new URL("../../dist/", import.meta.url));
 
 async function flujoCompleto(page: Page) {
   await cargar(page, "dni-ficticio.pdf");
@@ -94,6 +99,41 @@ test.describe("Privacidad", () => {
       bases: (await indexedDB.databases()).map((b) => b.name),
     }));
     expect(almacen).toEqual({ local: 0, sesion: 0, cookies: "", bases: [] });
+  });
+
+  test("la caché solo guarda los ficheros de la propia app, nunca el documento", async ({
+    page,
+    baseURL,
+    browserName,
+  }) => {
+    test.skip(
+      browserName === "webkit",
+      "El service worker de WebKit en Playwright no es fiable; se verifica a mano (tarea 18)",
+    );
+    const origen = new URL(baseURL!).origin;
+    await page.goto("/");
+    await esperarControlDelServiceWorker(page, origen);
+    await flujoCompleto(page);
+    const guardadas = await page.evaluate(async () => {
+      const urls: string[] = [];
+      for (const nombre of await caches.keys()) {
+        for (const peticion of await (await caches.open(nombre)).keys()) {
+          urls.push(peticion.url);
+        }
+      }
+      return urls;
+    });
+    const ficherosApp = new Set(
+      readdirSync(DIRECTORIO_DIST, { recursive: true }).map(String),
+    );
+    expect(guardadas.length).toBeGreaterThan(0);
+    for (const url of guardadas) {
+      const { origin, pathname } = new URL(url);
+      expect(origin, url).toBe(origen);
+      expect(ficherosApp.has(decodeURIComponent(pathname.slice(1))), url).toBe(
+        true,
+      );
+    }
   });
 
   test("funciona sin conexión tras la primera visita", async ({
