@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type Dispatch } from 'react'
+import { useRef, useState, type ChangeEvent, type Dispatch } from 'react'
 import { MENSAJES_ERROR } from '../contenido/errores'
 import { cargarArchivo, ErrorCarga } from '../core/cargar'
 import { MAXIMO_PAGINAS } from '../core/limites'
@@ -21,12 +21,15 @@ export function PasoDocumento({ estado, despachar, avisos }: Props) {
   const [peticion, setPeticion] = useState<Peticion | null>(null)
   const [arrastrando, setArrastrando] = useState(false)
   const [tactil] = useState(esTactil)
+  // `ocupado` solo cambia tras el siguiente render; la referencia bloquea al instante.
+  const cargando = useRef(false)
 
   const pedirContrasena = (incorrecta: boolean) =>
     new Promise<string | null>((resolver) => setPeticion({ incorrecta, resolver }))
 
   async function procesar(ficheros: File[]) {
-    if (ficheros.length === 0) return
+    if (ficheros.length === 0 || cargando.current) return
+    cargando.current = true
     setError(null)
     setOcupado(true)
     let total = estado.paginas.length
@@ -55,6 +58,7 @@ export function PasoDocumento({ estado, despachar, avisos }: Props) {
         }
       }
     } finally {
+      cargando.current = false
       setOcupado(false)
     }
   }
