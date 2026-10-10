@@ -14,7 +14,7 @@ export function PasoOcultar({ estado, despachar, avisos }: Props) {
     <>
       {pagina ? (
         <>
-          <p>Arrastra sobre la vista previa para tapar un dato con un recuadro negro. Toca un recuadro para seleccionarlo.</p>
+          <p>Arrastra sobre la vista previa para tapar un dato con un recuadro negro. Toca un recuadro para seleccionarlo. Más abajo tienes una guía de qué datos puedes ocultar.</p>
           <p role="status">Recuadros en esta página: {pagina.recuadros.length}</p>
           <div className="acciones">
             <button

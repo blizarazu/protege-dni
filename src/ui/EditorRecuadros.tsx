@@ -27,7 +27,7 @@ export function EditorRecuadros({ recuadros, seleccionado, onAnadir, onSeleccion
   }
 
   function alPulsar(e: PointerEvent<HTMLDivElement>) {
-    if (e.button !== 0) return
+    if (!e.isPrimary || e.button !== 0) return
     e.currentTarget.setPointerCapture(e.pointerId)
     const p = punto(e)
     setArrastre({ x1: p.x, y1: p.y, x2: p.x, y2: p.y, ancho: p.ancho, alto: p.alto })

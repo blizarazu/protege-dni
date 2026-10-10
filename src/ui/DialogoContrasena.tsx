@@ -50,7 +50,7 @@ export function DialogoContrasena({ abierto, incorrecta, onAceptar, onCancelar }
         )}
         <div className="campo">
           <label htmlFor={`${id}-clave`}>Contraseña del PDF</label>
-          <input id={`${id}-clave`} type="password" value={clave} onChange={(e) => setClave(e.target.value)} autoFocus />
+          <input id={`${id}-clave`} type="password" autoComplete="off" value={clave} onChange={(e) => setClave(e.target.value)} autoFocus />
         </div>
         <div className="acciones">
           <button className="boton" type="submit">
