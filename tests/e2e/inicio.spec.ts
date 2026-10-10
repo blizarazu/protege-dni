@@ -24,7 +24,7 @@ test('navega a buenas prácticas, con fuentes seguras, y vuelve', async ({ page 
   await page.goto('/')
   await page.getByRole('link', { name: 'Buenas prácticas' }).click()
   await expect(page.getByRole('heading', { level: 1, name: 'Buenas prácticas para compartir tu DNI' })).toBeVisible()
-  await expect(page.locator('.lista-practicas > li')).toHaveCount(9)
+  await expect(page.locator('.lista-practicas > li')).toHaveCount(10)
   const externos = page.locator('a[target="_blank"]')
   expect(await externos.count()).toBeGreaterThan(0)
   for (const enlace of await externos.all()) await expect(enlace).toHaveAttribute('rel', 'noopener noreferrer')

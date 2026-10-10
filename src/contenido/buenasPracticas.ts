@@ -34,8 +34,13 @@ export const BUENAS_PRACTICAS: readonly BuenaPractica[] = [
     fuentes: ['ocu'],
   },
   {
-    titulo: 'Envíala solo por los canales oficiales de la entidad.',
-    detalle: 'Un banco, por ejemplo, nunca pide datos personales por SMS, correo, enlaces ni llamadas, sino a través de su web o su app.',
+    titulo: 'Envíala solo a quien la pidió y bórrala cuando ya no la necesites.',
+    detalle: 'Mándala únicamente a quien te la pidió, por el canal que esa entidad indique, y no la dejes guardada en la nube ni en los chats cuando ya no la necesites.',
+    fuentes: [],
+  },
+  {
+    titulo: 'Desconfía de quien te pida datos haciéndose pasar por tu banco.',
+    detalle: 'Un banco nunca pide datos personales por SMS, correo, enlaces ni llamadas, sino a través de su web o su app.',
     fuentes: ['maldita'],
   },
   {
