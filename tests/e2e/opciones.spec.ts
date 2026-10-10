@@ -12,6 +12,7 @@ test.describe('Paso 4 · Opciones de seguridad', () => {
     const opacidad = bloque.getByLabel('Opacidad')
     await opacidad.fill('20')
     await expect(bloque.getByText('La marca es tan tenue que es fácil borrarla.')).toBeVisible()
+    await expect(bloque.locator('[data-opcion="opacidad"] [data-aviso="opacidad-baja"]')).toBeVisible()
     await opacidad.fill('75')
     await expect(bloque.getByText('Puede que no se lean los datos y te rechacen el documento.')).toBeVisible()
     await opacidad.fill('40')
@@ -23,6 +24,7 @@ test.describe('Paso 4 · Opciones de seguridad', () => {
     const bloque = paso(page, 'Opciones de seguridad')
     await bloque.getByLabel('Baja').check()
     await expect(bloque.getByText('Quedan zonas sin cubrir que se pueden recortar.')).toBeVisible()
+    await expect(bloque.locator('[data-opcion="densidad"] [data-aviso="densidad-baja"]')).toBeVisible()
   })
 
   test('«Mantener el color» avisa y la vista previa recupera el color', async ({ page }) => {
@@ -33,6 +35,7 @@ test.describe('Paso 4 · Opciones de seguridad', () => {
     const bloque = paso(page, 'Opciones de seguridad')
     await bloque.getByLabel('Mantener el color').check()
     await expect(bloque.getByText('En color es más fácil manipular la copia o imprimirla como si fuera el original.')).toBeVisible()
+    await expect(bloque.locator('[data-opcion="color"] [data-aviso="color"]')).toBeVisible()
     await expect.poll(async () => {
       const [r, , b] = await pixelVista(page, ...CENTRO_AZUL)
       return b - r
