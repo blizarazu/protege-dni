@@ -55,6 +55,21 @@ describe('cargarArchivo · PDF', () => {
     expect([p.anchoPx, p.altoPx]).toEqual([2339, 1653])
   })
 
+  it('limita el lado mayor a 4096 px en páginas grandes (PDF escaneado con imagen DCT)', async () => {
+    const doc = await PDFDocument.create()
+    const imagen = await doc.embedJpg(new Uint8Array(await (await fetch(jpgUrl)).arrayBuffer()))
+    doc.addPage([3000, 3000]).drawImage(imagen, { x: 0, y: 0, width: 3000, height: 3000 })
+    const f = new File([new Uint8Array(await doc.save())], 'grande.pdf', { type: 'application/pdf' })
+    const [p] = (await cargarArchivo(f, sinContrasena())).paginas
+    expect(Math.max(p.anchoPx, p.altoPx)).toBe(4096)
+    expect([p.anchoPt, p.altoPt]).toEqual([3000, 3000])
+    // El cuadrado rojo del DNI ficticio (centro relativo 0,252 × 0,178 en el A4) sigue siendo rojo.
+    const [r, g, b] = pixel(p.imagen, Math.round(p.anchoPx * 0.25), Math.round(p.altoPx * 0.18))
+    expect(r).toBeGreaterThan(200)
+    expect(g).toBeLessThan(80)
+    expect(b).toBeLessThan(80)
+  })
+
   it('pide la contraseña y vuelve a pedirla si es incorrecta', async () => {
     const pedir = vi.fn<PedirContrasena>().mockResolvedValueOnce('mala').mockResolvedValueOnce('clave-de-prueba')
     const { paginas } = await cargarArchivo(await fichero(cifradoUrl, 'cifrado.pdf', 'application/pdf'), pedir)

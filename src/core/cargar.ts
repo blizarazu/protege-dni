@@ -45,6 +45,7 @@ async function cargarPdf(fichero: File, pedirContrasena: PedirContrasena, maxPag
     cMapUrl: recursoPdfjs('cmaps'),
     wasmUrl: recursoPdfjs('wasm'),
     iccUrl: recursoPdfjs('iccs'),
+    verbosity: pdfjs.VerbosityLevel.ERRORS,
   })
   let cancelado = false
   tarea.onPassword = (actualizar: (clave: string) => void, motivo: number) => {
@@ -62,16 +63,19 @@ async function cargarPdf(fichero: File, pedirContrasena: PedirContrasena, maxPag
   try {
     documento = await tarea.promise
   } catch {
+    void tarea.destroy() // libera el worker también con un PDF dañado
     throw new ErrorCarga(cancelado ? 'cancelado' : 'pdf-danado')
   }
 
+  const paginas: Pagina[] = []
   try {
     const total = Math.min(documento.numPages, Math.max(0, maxPaginas))
-    const paginas: Pagina[] = []
     for (let n = 1; n <= total; n++) {
       const pagina = await documento.getPage(n)
       const enPuntos = pagina.getViewport({ scale: 1 }) // respeta /Rotate
-      const vista = pagina.getViewport({ scale: PPP_RASTERIZADO / 72 })
+      // Sin pasar de LADO_MAXIMO_IMAGEN: las páginas enormes superarían el límite de lienzo de Safari.
+      const escala = Math.min(PPP_RASTERIZADO / 72, LADO_MAXIMO_IMAGEN / Math.max(enPuntos.width, enPuntos.height))
+      const vista = pagina.getViewport({ scale: escala })
       const lienzo = document.createElement('canvas')
       lienzo.width = Math.round(vista.width)
       lienzo.height = Math.round(vista.height)
@@ -93,6 +97,7 @@ async function cargarPdf(fichero: File, pedirContrasena: PedirContrasena, maxPag
     }
     return { paginas, omitidas: documento.numPages - total }
   } catch (error) {
+    for (const p of paginas) p.imagen.close()
     if (error instanceof ErrorCarga) throw error
     throw new ErrorCarga('pdf-danado')
   } finally {
@@ -114,7 +119,12 @@ async function cargarImagen(fichero: File): Promise<Pagina> {
     const lienzo = document.createElement('canvas')
     lienzo.width = Math.round(original.width * escala)
     lienzo.height = Math.round(original.height * escala)
-    lienzo.getContext('2d')?.drawImage(original, 0, 0, lienzo.width, lienzo.height)
+    const ctx = lienzo.getContext('2d')
+    if (!ctx) {
+      original.close()
+      throw new ErrorCarga('imagen-danada')
+    }
+    ctx.drawImage(original, 0, 0, lienzo.width, lienzo.height)
     imagen = await createImageBitmap(lienzo)
     original.close()
     lienzo.width = 0
