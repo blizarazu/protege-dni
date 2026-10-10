@@ -18,10 +18,20 @@ export const ARRASTRE_SOBRE_ROJO: [[number, number], [number, number]] = [
   [0.36, 0.26],
 ]
 
+/**
+ * WebKit emite este error por el estilo interno de su propio `<select>` (el selector «Caso»), aunque la página
+ * no tenga ningún estilo en línea: lo da también una página vacía con la misma CSP y un `<select>`. Solo se
+ * ignora en WebKit; los proyectos de Chromium siguen detectando cualquier estilo en línea de la app.
+ */
+const CSP_SELECT_WEBKIT =
+  "Refused to apply a stylesheet because its hash, its nonce, or 'unsafe-inline' does not appear in the style-src directive of the Content Security Policy."
+
 export function vigilarConsola(page: Page): string[] {
+  const webkit = page.context().browser()?.browserType().name() === 'webkit'
   const errores: string[] = []
   page.on('console', (m) => {
-    if (m.type() === 'error') errores.push(m.text())
+    if (m.type() !== 'error' || (webkit && m.text() === CSP_SELECT_WEBKIT)) return
+    errores.push(m.text())
   })
   page.on('pageerror', (e) => errores.push(String(e)))
   return errores
