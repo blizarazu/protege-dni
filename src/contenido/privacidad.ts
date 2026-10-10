@@ -16,7 +16,7 @@ export const PUNTOS_COMPROBACION: readonly { titulo: string; texto: string }[] =
   },
   {
     titulo: 'El navegador lo impide',
-    texto: 'La página declara una política de seguridad (CSP) que hace que el propio navegador bloquee cualquier conexión a otros dominios.',
+    texto: 'La página declara una política de seguridad (CSP) que impide que cargue o envíe nada a otros dominios.',
   },
   {
     titulo: 'Puedes revisarlo',
