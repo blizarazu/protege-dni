@@ -5,7 +5,7 @@ export type BuenaPractica = { titulo: string; detalle: string; fuentes: IdFuente
 export const BUENAS_PRACTICAS: readonly BuenaPractica[] = [
   {
     titulo: 'Pregunta antes si de verdad necesitan una copia.',
-    detalle: 'La AEPD considera excesivo pedirla solo para identificar a alguien; a veces basta con enseñar el DNI o identificarse con certificado digital.',
+    detalle: 'La AEPD considera que pedir una copia del DNI es, en principio, un tratamiento excesivo: no puede exigirse por sistema y hay que valorar cada caso.',
     fuentes: ['aepd-informe'],
   },
   {
@@ -34,8 +34,8 @@ export const BUENAS_PRACTICAS: readonly BuenaPractica[] = [
     fuentes: ['ocu'],
   },
   {
-    titulo: 'Envíala por canales oficiales.',
-    detalle: 'Nunca por redes sociales, y no la dejes guardada en la nube ni en los chats.',
+    titulo: 'Envíala solo por los canales oficiales de la entidad.',
+    detalle: 'Un banco, por ejemplo, nunca pide datos personales por SMS, correo, enlaces ni llamadas, sino a través de su web o su app.',
     fuentes: ['maldita'],
   },
   {

@@ -12,7 +12,7 @@ export const GUIA_OCULTAR: readonly GrupoGuia[] = [
     nivel: 'ocultable',
     titulo: '✅ Normalmente puedes ocultarlo, salvo que te lo pidan expresamente',
     elementos: [
-      { dato: 'CAN', detalle: 'el código de 6 cifras de los DNI electrónicos. Sirve para leer el chip y en una copia no aporta nada.' },
+      { dato: 'CAN', detalle: 'el código de 6 cifras del anverso de los DNI 3.0 y 4.0. Sirve para leer el chip y en una copia no aporta nada.' },
       { dato: 'Número de soporte', detalle: 'identifica la tarjeta física y cambia con cada renovación. Algunos servicios lo usan para validar el documento: tápalo solo si no te lo piden.' },
       { dato: 'Firma', detalle: 'ocultarla evita que la copien, y rara vez se compara con una copia.' },
       { dato: 'Nombre de los padres y lugar de nacimiento', detalle: '(en los DNI que los incluyen) se usan a menudo como preguntas de seguridad y casi nunca hacen falta.' },
@@ -24,7 +24,7 @@ export const GUIA_OCULTAR: readonly GrupoGuia[] = [
     titulo: '⚠️ Ocúltalo solo si sabes que no lo necesitan',
     elementos: [
       { dato: 'Fotografía', detalle: 'es lo que permite comprobar que el documento es tuyo. INCIBE sugiere pixelarla, pero muchas entidades la exigen.' },
-      { dato: 'Zona de lectura mecánica', detalle: '(las líneas con «<<<» del reverso) repite tus datos, pero algunas entidades la leen de forma automática. Si te piden el reverso, suele ser por esta zona o por el domicilio.' },
+      { dato: 'Zona de lectura mecánica', detalle: '(las líneas con «<<<» del reverso) repite tus datos (también el número de soporte), pero algunas entidades la leen de forma automática. Si te piden el reverso, suele ser por esta zona o por el domicilio.' },
     ],
   },
   {
