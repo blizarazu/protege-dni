@@ -313,7 +313,7 @@ blob-report
 
 ```bash
 npm install --save-exact react@19.3.0 react-dom@19.3.0 pdfjs-dist@6.4.299 pdf-lib@1.17.1
-npm install --save-exact --save-dev typescript@7.0.2 vite@8.3.4 @vitejs/plugin-react@6.1.2 @types/react@19.3.0 @types/react-dom@19.3.0 @types/node@24.19.2 oxlint@1.87.0 vite-plugin-pwa@2.0.0 vitest@5.0.3 @vitest/browser-playwright@5.0.3 playwright@1.64.0 @playwright/test@1.64.0
+npm install --save-exact --save-dev typescript@7.0.2 vite@8.3.4 @vitejs/plugin-react@6.1.2 @types/react@19.3.0 @types/react-dom@19.3.0 @types/node@24.19.1 oxlint@1.87.0 vite-plugin-pwa@2.0.0 vitest@5.0.3 @vitest/browser-playwright@5.0.3 playwright@1.64.0 @playwright/test@1.64.0
 npx playwright install chromium webkit
 ```
 
