@@ -371,12 +371,18 @@ h2 {
 
 .vista-previa__lienzo {
   position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
+/* El canvas nunca supera la altura visible; el contenedor se ajusta a él y la capa de recuadros coincide. */
 .vista-previa canvas {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
+  max-width: 100%;
+  max-height: calc(100vh - 130px);
 }
 
 .editor-recuadros {

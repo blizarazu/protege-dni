@@ -54,11 +54,25 @@ test.describe('Paso 2 · Ocultar datos', () => {
     const bloque = paso(page, 'Ocultar datos')
     const eliminar = bloque.getByRole('button', { name: 'Eliminar recuadro' })
     await dibujarRecuadro(page, ...ARRASTRE_SOBRE_ROJO)
-    await tocarVista(page, [0.8, 0.5])
+    await tocarVista(page, [0.8, 0.8])
     await expect(eliminar).toBeDisabled()
     await expect(bloque.getByText('Recuadros en esta página: 1')).toBeVisible()
     await tocarVista(page, CENTRO_ROJO)
     await expect(eliminar).toBeEnabled()
+  })
+
+  test('se puede dibujar cerca del borde inferior y la capa coincide con el canvas', async ({ page }) => {
+    await abrirPaso(page, 'Ocultar datos')
+    const bloque = paso(page, 'Ocultar datos')
+    await dibujarRecuadro(page, [0.2, 0.85], [0.6, 0.95])
+    await expect(bloque.getByText('Recuadros en esta página: 1')).toBeVisible()
+    const capa = (await page.getByTestId('editor-recuadros').boundingBox())!
+    const lienzo = (await page.locator('.vista-previa canvas').boundingBox())!
+    for (const k of ['x', 'y', 'width', 'height'] as const) {
+      expect(Math.abs(capa[k] - lienzo[k])).toBeLessThanOrEqual(1)
+    }
+    const alto = page.viewportSize()!.height
+    expect(capa.y + capa.height).toBeLessThanOrEqual(alto)
   })
 
   test('muestra la guía de qué se puede ocultar', async ({ page }) => {
